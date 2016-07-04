@@ -1429,6 +1429,11 @@ ev_tstamp fbr_sleep(FBR_P_ ev_tstamp seconds)
 	return max(0., expected - ev_now(fctx->__p->loop));
 }
 
+ev_tstamp fbr_time(FBR_P)
+{
+	return ev_now(fctx->__p->loop);
+}
+
 static void watcher_async_dtor(FBR_P_ void *_arg)
 {
 	struct ev_async *w = _arg;

@@ -1409,6 +1409,15 @@ int fbr_accept(FBR_P_ int sockfd, struct sockaddr *addr, socklen_t *addrlen);
  */
 ev_tstamp fbr_sleep(FBR_P_ ev_tstamp seconds);
 
+
+/**
+ * Gets current eventloop time in seconds
+ * @return number of seconds since epoch
+ *
+ * This function is used to get time for event loop clock.
+ */
+ev_tstamp fbr_time(FBR_P);
+
 /**
  * Waits for an async libev event.
  * @param [in] w ev_async watcher (initialized by caller)
