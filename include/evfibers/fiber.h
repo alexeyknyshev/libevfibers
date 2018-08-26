@@ -231,6 +231,7 @@ enum fbr_error_code {
 	FBR_EPROTOBUF,
 	FBR_EBUFFERNOSPACE,
 	FBR_EEIO,
+	FBR_EAGAIN,
 };
 
 /**
@@ -1536,8 +1537,29 @@ void fbr_cond_destroy(FBR_P_ struct fbr_cond_var *cond);
  * @see fbr_cond_destroy
  * @see fbr_cond_broadcast
  * @see fbr_cond_signal
+ * @see fbr_cond_wait_wto
  */
 int fbr_cond_wait(FBR_P_ struct fbr_cond_var *cond, struct fbr_mutex *mutex);
+
+/**
+ * Waits until condition is met or specified timeout is reached.
+ * @returns 0 on success, -1 on error including reaching specified timeout
+ *
+ * Current fiber is suspended until a signal send via fbr_cond_signal or
+ * fbr_cond_broadcast to the corresponding condition variable but not more than
+ * specified timeout.
+ *
+ * A mutex must be acquired by the calling fiber prior to waiting for a
+ * condition. Internally mutex is released and reacquired again before
+ * returning. Upon successful return calling fiber will hold the mutex.
+ *
+ * In case of timeout FBR_EAGAIN is set as f_errno
+ *
+ * @see fbr_cond_wait
+ */
+
+int fbr_cond_wait_wto(FBR_P_ struct fbr_cond_var *cond, struct fbr_mutex *mutex,
+			ev_tstamp timeout);
 
 /**
  * Broadcasts a signal to all fibers waiting for condition.

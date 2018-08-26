@@ -254,6 +254,8 @@ const char *fbr_strerror(_unused_ FBR_P_ enum fbr_error_code code)
 			return "Not enough space in the buffer";
 		case FBR_EEIO:
 			return "libeio request error";
+		case FBR_EAGAIN:
+			return "Try again";
 	}
 	return "Unknown error";
 }
@@ -1730,6 +1732,23 @@ int fbr_cond_wait(FBR_P_ struct fbr_cond_var *cond, struct fbr_mutex *mutex)
 
 	fbr_ev_cond_var_init(FBR_A_ &ev, cond, mutex);
 	fbr_ev_wait_one(FBR_A_ &ev.ev_base);
+	return_success(0);
+}
+
+int fbr_cond_wait_wto(FBR_P_ struct fbr_cond_var *cond, struct fbr_mutex *mutex,
+		ev_tstamp timeout)
+{
+	struct fbr_ev_cond_var ev;
+	int retval;
+
+	if (mutex && fbr_id_isnull(mutex->locked_by))
+		return_error(-1, FBR_EINVAL);
+
+	fbr_ev_cond_var_init(FBR_A_ &ev, cond, mutex);
+	retval = fbr_ev_wait_one_wto(FBR_A_ &ev.ev_base, timeout);
+	if (-1 == retval)
+		return_error(-1, FBR_EAGAIN);
+
 	return_success(0);
 }
 
