@@ -1112,7 +1112,7 @@ void fbr_free_nd(FBR_P_ void *ptr);
  * @param [in] fd file descriptor to make non-blocking
  * @returns -1 on error with f_errno set, 0 upon success
  *
- * In case of failure FBR_ESYSTEM is set as f_errno ans user should consult
+ * In case of failure FBR_ESYSTEM is set as f_errno and user should consult
  * system errno for details.
  *
  */
@@ -1570,7 +1570,7 @@ void fbr_cond_signal(FBR_P_ struct fbr_cond_var *cond);
  * @param [in] vrb a pointer to fbr_vrb
  * @param [in] size length of the data
  * @param [in] file_pattern file name patterm for underlying mmap storage
- * @returns 0 on succes, -1 on error.
+ * @returns 0 on success, -1 on error.
  *
  * This function mmaps adjacent virtual memory regions of required size which
  * correspond to the same physical memory region. Also it adds two page-sized
@@ -1659,7 +1659,7 @@ static inline void *fbr_vrb_data_ptr(struct fbr_vrb *vrb)
  * Give data to a vrb.
  * @param [in] vrb a pointer to fbr_vrb
  * @param [in] size length of the data
- * @returns 0 on succes, -1 on error.
+ * @returns 0 on success, -1 on error.
  *
  * This function marks size bytes of space area as data starting from the
  * beginning of space area. It's your responsibility to fill those area with
@@ -1680,7 +1680,7 @@ static inline int fbr_vrb_give(struct fbr_vrb *vrb, size_t size)
  * Take data from a vrb.
  * @param [in] vrb a pointer to fbr_vrb
  * @param [in] size length of the data
- * @returns 0 on succes, -1 on error.
+ * @returns 0 on success, -1 on error.
  *
  * This function marks size bytes of data area as space starting from the
  * beginning of data area. It's your responsibility to drop any references to
@@ -1727,7 +1727,7 @@ int fbr_vrb_resize_do(struct fbr_vrb *vrb, size_t new_size,
  * @param [in] vrb a pointer to fbr_vrb
  * @param [in] new_size new length of the data
  * @param [in] file_pattern file name patterm for underlying mmap storage
- * @returns 0 on succes, -1 on error.
+ * @returns 0 on success, -1 on error.
  *
  * This function does new mappings and copies the data over. Old mappings will
  * be destroyed and all pointers to old data will be invalid after this
@@ -1761,7 +1761,7 @@ static inline int fbr_vrb_resize(struct fbr_vrb *vrb, size_t new_size,
  * Initializes a circular buffer with pipe semantics.
  * @param [in] buffer fbr_buffer structure to initialize
  * @param [in] size size hint for the buffer
- * @returns 0 on succes, -1 upon failure with f_errno set.
+ * @returns 0 on success, -1 upon failure with f_errno set.
  *
  * This allocates a buffer with pipe semantics: you can write into it and later
  * read what you have written. The buffer will occupy size rounded up to page
